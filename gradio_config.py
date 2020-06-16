@@ -1,9 +1,9 @@
-import gradio
 from skimage import io
 import base64
 from tensorflow.keras.models import load_model
-from src.moleimages import MoleImages
 import numpy as np
+import gradio
+import src
 
 
 def load():
@@ -11,7 +11,7 @@ def load():
     return model
 
 
-def predict(inp):
+def predict(inp, model):
     inp = inp.split(';')[1]
     inp = inp.split(',')[1]
     if isinstance(inp, bytes):
@@ -20,19 +20,15 @@ def predict(inp):
     inp = base64.b64decode(inp)
     img = io.imread(inp, plugin='imageio')
 
-    mimg = MoleImages()
+    mimg = src.moleimages.MoleImages()
     X = mimg.load_image(img)
 
-    model = load()
     y_pred = model.predict(X)
-    return np.asarray([y_pred, 1 - y_pred])
+    return {"benign": y_pred, "cancerous": 1-y_pred}
 
 
-def no_pp(inp):
-    return inp
-
-
-INPUT = gradio.inputs.ImageUpload(preprocessing_fn=no_pp)
-OUTPUT = gradio.outputs.Label(label_names=["benign", "malign"],
-                            num_top_classes=2)
+INPUTS = gradio.inputs.ImageIn()
+OUTPUTS = gradio.outputs.Label()
+INTERFACE = gradio.Interface(fn=predict, inputs=INPUTS, outputs=OUTPUTS,
+                             load_fn=load)
 
