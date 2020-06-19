@@ -32,3 +32,4 @@ OUTPUTS = gradio.outputs.Label()
 INTERFACE = gradio.Interface(fn=predict, inputs=INPUTS, outputs=OUTPUTS,
                              load_fn=load)
 
+INTERFACE.launch()
