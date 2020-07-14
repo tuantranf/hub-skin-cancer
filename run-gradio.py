@@ -13,5 +13,8 @@ def predict(input):
     y_pred = model.predict(X)
     return {"benign": float(y_pred[0][0]), "cancerous": float(1-y_pred[0][0])}
 
-io = gradio.Interface(fn=predict, inputs='image', outputs='label', capture_session=True)
+examples=[["benign.png"], ["cancerous.png"]]
+
+io = gradio.Interface(fn=predict, inputs='image', outputs='label', capture_session=True, examples=examples,
+	title="Identifying Skin Cancer", description="Predicts whether an image of skin is cancerous or not. This model is EXPERIMENTAL and should only be used for research purposes. Please see a doctor for any diagnostic reasons.")
 io.launch()
