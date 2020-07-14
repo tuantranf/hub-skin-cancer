@@ -1,6 +1,9 @@
+![](https://raw.githubusercontent.com/gradio-app/hub-skin-cancer/master/thumbnail.png)
+
 # CNN to identify malign moles on skin
-#### *by David Soto*  - dasoto@gmail.com
+Originally developed by  *by David Soto*  - dasoto@gmail.com
 @Galvanize Data Science Immersive Program
+
 ### 1. Project Summary and motivation
 The purpose of this project is to create a tool that considering the image of a
 mole, can calculate the probability that a mole can be malign.
